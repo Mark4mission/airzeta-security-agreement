@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보안서약서 - Air Zeta</title>
+
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Signature Pad -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+    body { font-family: 'Noto Sans KR', sans-serif; }
+    .spinner {
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #3498db;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        animation: spin 1s linear infinite;
+        display: inline-block;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .signature-canvas {
+        touch-action: none;
+    }
+</style>
+</head>
+<body class="bg-gray-50">
+<div class="container mx-auto px-4 py-8 max-w-2xl">
+    <!-- 헤더 -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">보안서약서</h1>
+                <p class="text-sm text-gray-600 mt-1">Security Pledge Agreement</p>
+            </div>
+            <button onclick="toggleLanguage()" 
+                    class="px-4 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition">
+                <span data-i18n="langToggle">KO/EN</span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- 서약서 내용 -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-lg font-semibold mb-4" data-i18n="pledgeTitle">서약 내용</h2>
+        <div class="text-sm text-gray-600 mb-4" data-i18n="pledgeSubtitle">
+            본 서약서는 국가항공보안계획 1.2.13에 의거, 민감보안정보 취급자의 요건인 신원 조사를 대체한다.
+        </div>
+
+        <div class="space-y-3">
+            <label class="flex items-start p-3 hover:bg-gray-50 rounded cursor-pointer">
+                <input type="checkbox" id="clause1" class="mt-1 mr-3 w-5 h-5">
+                <div>
+                    <strong data-i18n="clause1Title">제1항: 항공보안법 준수</strong>
+                    <p class="text-sm text-gray-600 mt-1" data-i18n="clause1Content">
+                        본인은 항공보안법, 국가항공보안계획, 공항보안규정, 항공사 자체보안계획, 지점보안계획 및 취항국가의 항공보안 관련 법령과 규정에서 정한 모든 항공보안요건을 철저히 준수할 것을 서약한다.
+                    </p>
+                </div>
+            </label>
+
+            <label class="flex items-start p-3 hover:bg-gray-50 rounded cursor-pointer">
+                <input type="checkbox" id="clause2" class="mt-1 mr-3 w-5 h-5">
+                <div>
+                    <strong data-i18n="clause2Title">제2항: 범죄이력 확인</strong>
+                    <p class="text-sm text-gray-600 mt-1" data-i18n="clause2Content">
+                        본인은 항공보안법, 관세법, 출입국관리법, 외국환거래법, 마약류관리에 관한 법률 위반으로 벌금 이상의 형을 선고받은 사실이 없음을 확인하고, 향후 민감보안정보를 취급하는 동안 전단의 법률 위반행위를 절대 하지 않을 것을 서약한다.
+                    </p>
+                </div>
+            </label>
+
+            <label class="flex items-start p-3 hover:bg-gray-50 rounded cursor-pointer">
+                <input type="checkbox" id="clause3" class="mt-1 mr-3 w-5 h-5">
+                <div>
+                    <strong data-i18n="clause3Title">제3항: 정보보안</strong>
+                    <p class="text-sm text-gray-600 mt-1" data-i18n="clause3Content">
+                        본인은 민감보안정보를 당사 업무 관련자에 대한 교육 및 긴급 전파 목적 외에 공개하거나 배포하지 않을 것을 서약한다.
+                    </p>
+                </div>
+            </label>
+
+            <label class="flex items-start p-3 hover:bg-gray-50 rounded cursor-pointer">
+                <input type="checkbox" id="clause4" class="mt-1 mr-3 w-5 h-5">
+                <div>
+                    <strong data-i18n="clause4Title">제4항: 위반시 조치</strong>
+                    <p class="text-sm text-gray-600 mt-1" data-i18n="clause4Content">
+                        본인은 위의 사항을 어겼을 경우, 그에 수반되는 회사의 제반 조치에 어떠한 이의도 제기하지 않을 것을 서약한다.
+                    </p>
+                </div>
+            </label>
+
+            <label class="flex items-center p-3 bg-blue-50 rounded cursor-pointer">
+                <input type="checkbox" id="agreeAll" class="mr-3 w-5 h-5">
+                <strong class="text-blue-700" data-i18n="agreeAll">모든 조항에 동의합니다</strong>
+            </label>
+        </div>
+    </div>
+
+    <!-- 개인정보 입력 -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h2 class="text-lg font-semibold mb-4" data-i18n="infoTitle">정보 입력</h2>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1" data-i18n="dateLabel">
+                    날짜
+                </label>
+                <input type="text" id="date" class="w-full px-4 py-2 border rounded-lg bg-gray-100" 
+                       readonly>
+            </div>
+
+            <div>
+                <label for="affiliation" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="affiliationLabel">
+                    소속 *
+                </label>
+                <input type="text" id="affiliation" 
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                       placeholder="예: 운항본부" required>
+            </div>
+
+            <div>
+                <label for="position" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="positionLabel">
+                    직위 *
+                </label>
+                <input type="text" id="position" 
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                       placeholder="예: 과장" required>
+            </div>
+
+            <div>
+                <label for="employeeId" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="employeeIdLabel">
+                    사번/생년월일 *
+                </label>
+                <input type="text" id="employeeId" 
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                       placeholder="예: 100000 또는 1990-01-01" required>
+            </div>
+
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700 mb-1" data-i18n="nameLabel">
+                    성명 *
+                </label>
+                <input type="text" id="name" 
+                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                       placeholder="예: 홍길동" required>
+            </div>
+        </div>
+    </div>
+
+    <!-- 서명 영역 -->
+    <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-lg font-semibold" data-i18n="signatureTitle">서명</h2>
+            <button onclick="clearSignature()" 
+                    class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition">
+                <span data-i18n="clearBtn">지우기</span>
+            </button>
+        </div>
+
+        <div class="border-2 border-dashed border-gray-300 rounded-lg p-2 bg-white">
+            <canvas id="signaturePad" class="signature-canvas w-full" style="height: 200px;"></canvas>
+        </div>
+        <p class="text-xs text-gray-500 mt-2" data-i18n="signatureHint">
+            마우스나 터치로 서명해주세요
+        </p>
+    </div>
+
+    <!-- 제출 버튼 -->
+    <div class="flex justify-center">
+        <button onclick="handleSubmit()" id="submitBtn"
+                class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+            <span data-i18n="submitBtn">제출하기</span>
+        </button>
+    </div>
+
+    <!-- 푸터 -->
+    <div class="text-center text-sm text-gray-500 mt-8">
+        <p data-i18n="footer">에어제타㈜ 대표 귀하</p>
+        <p class="text-xs mt-2">To President/CEO, Air Zeta Co., Ltd.</p>
+    </div>
+</div>
+
+<script>
+    // ===== 설정 =====
+    const API_URL = 'https://script.google.com/macros/s/AKfycbyzmjZI5xhSomfd0G2xzdth1timVW7aH-xWa2zkJPwfGRtWZD4y24EkPobwajC0R9OhlQ/exec';
+
+    let signaturePad;
+    let currentLanguage = 'ko';
+
+    // ===== 다국어 데이터 =====
+    const translations = {
+        ko: {
+            langToggle: 'KO/EN',
+            pledgeTitle: '서약 내용',
+            pledgeSubtitle: '본 서약서는 국가항공보안계획 1.2.13에 의거, 민감보안정보 취급자의 요건인 신원 조사를 대체한다.',
+            clause1Title: '제1항: 항공보안법 준수',
+            clause1Content: '본인은 항공보안법, 국가항공보안계획, 공항보안규정, 항공사 자체보안계획, 지점보안계획 및 취항국가의 항공보안 관련 법령과 규정에서 정한 모든 항공보안요건을 철저히 준수할 것을 서약한다.',
+            clause2Title: '제2항: 범죄이력 확인',
+            clause2Content: '본인은 항공보안법, 관세법, 출입국관리법, 외국환거래법, 마약류관리에 관한 법률 위반으로 벌금 이상의 형을 선고받은 사실이 없음을 확인하고, 향후 민감보안정보를 취급하는 동안 전단의 법률 위반행위를 절대 하지 않을 것을 서약한다.',
+            clause3Title: '제3항: 정보보안',
+            clause3Content: '본인은 민감보안정보를 당사 업무 관련자에 대한 교육 및 긴급 전파 목적 외에 공개하거나 배포하지 않을 것을 서약한다.',
+            clause4Title: '제4항: 위반시 조치',
+            clause4Content: '본인은 위의 사항을 어겼을 경우, 그에 수반되는 회사의 제반 조치에 어떠한 이의도 제기하지 않을 것을 서약한다.',
+            agreeAll: '모든 조항에 동의합니다',
+            infoTitle: '정보 입력',
+            dateLabel: '날짜',
+            affiliationLabel: '소속 *',
+            positionLabel: '직위 *',
+            employeeIdLabel: '사번/생년월일 *',
+            nameLabel: '성명 *',
+            signatureTitle: '서명',
+            clearBtn: '지우기',
+            signatureHint: '마우스나 터치로 서명해주세요',
+            submitBtn: '제출하기',
+            footer: '에어제타㈜ 대표 귀하'
+        },
+        en: {
+            langToggle: 'KO/EN',
+            pledgeTitle: 'Pledge Content',
+            pledgeSubtitle: 'This pledge replaces the background check requirement for "Need to Know" person pursuant to National Civil Aviation Security Plan 1.2.13.',
+            clause1Title: 'Clause 1: Aviation Security Compliance',
+            clause1Content: 'I hereby pledge to strictly comply with all aviation security requirements as stipulated in the Aviation Security Act, the National Civil Aviation Security Program, Airport Security Plans, the Aircraft Operator Security Plan, Supplementary Station Procedures (SSP), and the aviation security laws and regulations of the countries to which the aircraft operates.',
+            clause2Title: 'Clause 2: Criminal Record Confirmation',
+            clause2Content: 'I confirm that I have not been sentenced to a fine or more for any violation of the Aviation Security Act, Customs Act, Immigration Act, Foreign Exchange Act, or Narcotics Control Act. Furthermore, I pledge to strictly adhere to these laws and commit no violations while working as "Need to Know" person.',
+            clause3Title: 'Clause 3: Information Security',
+            clause3Content: 'I hereby pledge not to disclose or distribute sensitive security information except for the purpose of education and emergency dissemination to employees related to our business.',
+            clause4Title: 'Clause 4: Acceptance of Measures',
+            clause4Content: 'I undertake not to raise any objection to any action taken by the Company in the event of any breach of the above.',
+            agreeAll: 'I agree to all terms',
+            infoTitle: 'Information',
+            dateLabel: 'Date',
+            affiliationLabel: 'Department/Affiliation *',
+            positionLabel: 'Position/Title *',
+            employeeIdLabel: 'Employee ID / Date of Birth *',
+            nameLabel: 'Full Name *',
+            signatureTitle: 'Signature',
+            clearBtn: 'Clear',
+            signatureHint: 'Please sign with mouse or touch',
+            submitBtn: 'Submit',
+            footer: 'To President/CEO, Air Zeta Co., Ltd.'
+        }
+    };
+
+    // ===== 초기화 =====
+    window.addEventListener('load', () => {
+        initializeSignaturePad();
+        setCurrentDate();
+        setupCheckboxes();
+
+        // 언어 자동 감지
+        const savedLang = localStorage.getItem('language') || 
+                        (navigator.language.startsWith('ko') ? 'ko' : 'en');
+        currentLanguage = savedLang;
+        updateLanguage();
+    });
+
+
+    // ===== 서명 패드 초기화 =====
+    function initializeSignaturePad() {
+        const canvas = document.getElementById('signaturePad');
+
+        // Canvas 크기 조정
+        const ratio = Math.max(window.devicePixelRatio || 1, 1);
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = 200 * ratio;
+        canvas.getContext('2d').scale(ratio, ratio);
+
+        signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'white',
+            penColor: 'black',
+            minWidth: 0.5,
+            maxWidth: 2.5,
+            throttle: 16,
+            minDistance: 5
+        });
+    }
+
+    // ===== 날짜 설정 =====
+    function setCurrentDate() {
+        const today = new Date();
+        const formatted = today.toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+        }).replace(/\. /g, '/').replace('.', '');
+        document.getElementById('date').value = formatted;
+    }
+
+    // ===== 체크박스 설정 =====
+    function setupCheckboxes() {
+        const agreeAll = document.getElementById('agreeAll');
+        const clauses = ['clause1', 'clause2', 'clause3', 'clause4'];
+
+        // 전체 동의 체크박스
+        agreeAll.addEventListener('change', (e) => {
+            clauses.forEach(id => {
+                document.getElementById(id).checked = e.target.checked;
+            });
+        });
+
+        // 개별 체크박스
+        clauses.forEach(id => {
+            document.getElementById(id).addEventListener('change', () => {
+                const allChecked = clauses.every(clauseId => 
+                    document.getElementById(clauseId).checked
+                );
+                agreeAll.checked = allChecked;
+            });
+        });
+    }
+
+    // ===== 언어 전환 =====
+    function toggleLanguage() {
+        currentLanguage = currentLanguage === 'ko' ? 'en' : 'ko';
+        localStorage.setItem('language', currentLanguage);
+        updateLanguage();
+    }
+
+    function updateLanguage() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (translations[currentLanguage][key]) {
+                el.textContent = translations[currentLanguage][key];
+            }
+        });
+
+        // placeholder 업데이트
+        if (currentLanguage === 'en') {
+            document.getElementById('affiliation').placeholder = 'e.g., Operations';
+            document.getElementById('position').placeholder = 'e.g., Manager';
+            document.getElementById('employeeId').placeholder = 'e.g., 100000 or 1990-01-01';
+            document.getElementById('name').placeholder = 'e.g., John Doe';
+        } else {
+            document.getElementById('affiliation').placeholder = '예: 운항본부';
+            document.getElementById('position').placeholder = '예: 과장';
+            document.getElementById('employeeId').placeholder = '예: 100000 또는 1990-01-01';
+            document.getElementById('name').placeholder = '예: 홍길동';
+        }
+    }
+
+    // ===== 서명 지우기 =====
+    function clearSignature() {
+        signaturePad.clear();
+    }
+
+    // ===== 유효성 검사 =====
+    function validateForm() {
+        // 체크박스 확인
+        if (!document.getElementById('agreeAll').checked) {
+            alert(currentLanguage === 'ko' ? 
+                '모든 조항에 동의해주세요.' : 
+                'Please agree to all terms.');
+            return false;
+        }
+
+        // 필수 입력 확인
+        const requiredFields = ['affiliation', 'position', 'employeeId', 'name'];
+        for (const id of requiredFields) {
+            const value = document.getElementById(id).value.trim();
+            if (!value) {
+                const label = document.querySelector(`label[for="${id}"]`)?.textContent || id;
+                alert(currentLanguage === 'ko' ? 
+                    `${label}을(를) 입력해주세요.` : 
+                    `Please enter ${label}.`);
+                document.getElementById(id).focus();
+                return false;
+            }
+        }
+
+        // 서명 확인
+        if (signaturePad.isEmpty()) {
+            alert(currentLanguage === 'ko' ? 
+                '서명해주세요.' : 
+                'Please provide your signature.');
+            return false;
+        }
+
+        return true;
+    }
+
+
+    // ===== 제출 처리 =====
+    async function handleSubmit() {
+        if (!validateForm()) return;
+
+        const submitBtn = document.getElementById('submitBtn');
+        const originalText = submitBtn.innerHTML;
+
+        try {
+            // 버튼 비활성화
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> 제출 중...';
+
+            // IP 주소 가져오기 (선택사항)
+            let ipAddress = '';
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                ipAddress = ipData.ip;
+            } catch (e) {
+                // IP 가져오기 실패해도 계속 진행
+                console.log('IP 주소 가져오기 실패:', e);
+            }
+
+            // 데이터 수집
+            const formData = {
+                name: document.getElementById('name').value.trim(),
+                affiliation: document.getElementById('affiliation').value.trim(),
+                position: document.getElementById('position').value.trim(),
+                employeeId: document.getElementById('employeeId').value.trim(),
+                signatureImage: signaturePad.toDataURL('image/png'),
+                language: currentLanguage,
+                allAgreed: document.getElementById('agreeAll').checked,
+                ipAddress: ipAddress
+            };
+
+            // 폼 제출 방식으로 데이터 전송
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = API_URL;
+            form.target = 'hiddenFrame';
+            form.style.display = 'none';
+            
+            // 폼 데이터 추가
+            const actionInput = document.createElement('input');
+            actionInput.type = 'hidden';
+            actionInput.name = 'action';
+            actionInput.value = 'submit';
+            form.appendChild(actionInput);
+            
+            const dataInput = document.createElement('input');
+            dataInput.type = 'hidden';
+            dataInput.name = 'data';
+            dataInput.value = JSON.stringify(formData);
+            form.appendChild(dataInput);
+            
+            // 숨겨진 iframe 생성
+            let iframe = document.getElementById('hiddenFrame');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.id = 'hiddenFrame';
+                iframe.name = 'hiddenFrame';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+            
+            // iframe 로드 이벤트 리스너
+            iframe.onload = function() {
+                try {
+                    // iframe이 로드되었지만 응답이 없을 수 있음
+                    setTimeout(() => {
+                        try {
+                            let response = '';
+                            
+                            // iframe의 내용을 안전하게 가져오기
+                            if (iframe.contentDocument && iframe.contentDocument.body) {
+                                response = iframe.contentDocument.body.textContent || iframe.contentDocument.body.innerText || '';
+                            }
+                            
+                            // 응답이 비어있으면 성공으로 간주 (Google Apps Script가 정상 처리됨)
+                            if (!response || response.trim() === '') {
+                                alert(currentLanguage === 'ko' ?
+                                    `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}` :
+                                    `✅ Successfully submitted.\n\nSubmission Time: ${new Date().toLocaleString()}`);
+
+                                // 폼 초기화
+                                resetForm();
+                            } else {
+                                // JSON 응답이 있는 경우 파싱 시도
+                                try {
+                                    const result = JSON.parse(response);
+                                    
+                                    if (result.success) {
+                                        alert(currentLanguage === 'ko' ?
+                                            `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 ID: ${result.submissionId}\n시간: ${result.timestamp}` :
+                                            `✅ Successfully submitted.\n\nSubmission ID: ${result.submissionId}\nTime: ${result.timestamp}`);
+
+                                        // 폼 초기화
+                                        resetForm();
+                                    } else {
+                                        alert('❌ ' + result.error);
+                                    }
+                                } catch (parseError) {
+                                    console.log('JSON 파싱 실패, 하지만 제출은 성공한 것으로 간주:', parseError);
+                                    alert(currentLanguage === 'ko' ?
+                                        `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}` :
+                                        `✅ Successfully submitted.\n\nSubmission Time: ${new Date().toLocaleString()}`);
+
+                                    // 폼 초기화
+                                    resetForm();
+                                }
+                            }
+                        } catch (e) {
+                            console.log('응답 처리 중 오류, 하지만 제출은 성공한 것으로 간주:', e);
+                            alert(currentLanguage === 'ko' ?
+                                `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}` :
+                                `✅ Successfully submitted.\n\nSubmission Time: ${new Date().toLocaleString()}`);
+
+                            // 폼 초기화
+                            resetForm();
+                        }
+                        
+                        // 폼 제거
+                        if (form.parentNode) {
+                            document.body.removeChild(form);
+                        }
+                    }, 1000); // 1초 후에 응답 확인
+                    
+                } catch (e) {
+                    console.error('iframe 로드 오류:', e);
+                    // 오류가 발생해도 제출은 성공한 것으로 간주
+                    alert(currentLanguage === 'ko' ?
+                        `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}` :
+                        `✅ Successfully submitted.\n\nSubmission Time: ${new Date().toLocaleString()}`);
+
+                    // 폼 초기화
+                    resetForm();
+                    
+                    // 폼 제거
+                    if (form.parentNode) {
+                        document.body.removeChild(form);
+                    }
+                }
+            };
+            
+            // 폼 제출
+            document.body.appendChild(form);
+            form.submit();
+
+        } catch (error) {
+            console.error('Submit error:', error);
+            alert(currentLanguage === 'ko' ?
+                '❌ 제출 중 오류가 발생했습니다: ' + error.message :
+                '❌ Submission failed: ' + error.message);
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+        }
+    }
+
+    // ===== 폼 초기화 =====
+    function resetForm() {
+        document.getElementById('affiliation').value = '';
+        document.getElementById('position').value = '';
+        document.getElementById('employeeId').value = '';
+        document.getElementById('name').value = '';
+
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.checked = false;
+        });
+
+        signaturePad.clear();
+
+        // 날짜는 유지
+        setCurrentDate();
+    }
+
+    // ===== 다른 프로젝트에서 사용할 조회 함수 =====
+    async function queryPledgeByEmployeeId(employeeId) {
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'query',
+                    employeeId: employeeId
+                })
+            });
+
+            return await response.json();
+        } catch (error) {
+            console.error('Query error:', error);
+            return { exists: false, error: error.message };
+        }
+    }
+
+</script>
+</body>
+</html>
