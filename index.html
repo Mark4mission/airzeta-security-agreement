@@ -216,7 +216,7 @@
             dateLabel: '날짜',
             affiliationLabel: '소속 *',
             positionLabel: '직위 *',
-            employeeIdLabel: '(직원이면) 사번/(직원이 아니면) 생년월일 *',
+            employeeIdLabel: '(직원) 사번 / (직원이 아니면) 생년월일 *',
             nameLabel: '성명 *',
             signatureTitle: '서명',
             clearBtn: '지우기',
@@ -398,7 +398,7 @@
         // 이미 제출 중인 경우 중복 제출 방지
         if (isSubmitting) {
             alert(currentLanguage === 'ko' ? 
-                '처리중이니 잠시 기다려주십시오.' : 
+                '서약서를 등록중입니다. 잠시만 기다려주세요.' : 
                 'Please wait, your submission is being processed.');
             return;
         }
@@ -410,7 +410,9 @@
             // 제출 상태 설정 및 버튼 비활성화
             isSubmitting = true;
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner"></span> 제출 중...';
+            submitBtn.innerHTML = '<span class="spinner"></span> 서약서를 등록중입니다...';
+            submitBtn.style.opacity = '0.6';
+            submitBtn.style.cursor = 'not-allowed';
 
             // IP 주소 가져오기 (선택사항)
             let ipAddress = '';
@@ -480,45 +482,25 @@
                             
                             // 응답이 비어있으면 성공으로 간주 (Google Apps Script가 정상 처리됨)
                             if (!response || response.trim() === '') {
-                                alert(currentLanguage === 'ko' ?
-                                    `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}` :
-                                    `✅ Successfully submitted.\n\nSubmission Time: ${new Date().toLocaleString()}`);
-
-                                // 폼 초기화
-                                resetForm();
+                                showSuccessMessage();
                             } else {
                                 // JSON 응답이 있는 경우 파싱 시도
                                 try {
                                     const result = JSON.parse(response);
                                     
                                     if (result.success) {
-                                        alert(currentLanguage === 'ko' ?
-                                            `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 ID: ${result.submissionId}\n시간: ${result.timestamp}` :
-                                            `✅ Successfully submitted.\n\nSubmission ID: ${result.submissionId}\nTime: ${result.timestamp}`);
-
-                                        // 폼 초기화
-                                        resetForm();
+                                        showSuccessMessage();
                                     } else {
                                         alert('❌ ' + result.error);
                                     }
                                 } catch (parseError) {
                                     console.log('JSON 파싱 실패, 하지만 제출은 성공한 것으로 간주:', parseError);
-                                    alert(currentLanguage === 'ko' ?
-                                        `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}` :
-                                        `✅ Successfully submitted.\n\nSubmission Time: ${new Date().toLocaleString()}`);
-
-                                    // 폼 초기화
-                                    resetForm();
+                                    showSuccessMessage();
                                 }
                             }
                         } catch (e) {
                             console.log('응답 처리 중 오류, 하지만 제출은 성공한 것으로 간주:', e);
-                            alert(currentLanguage === 'ko' ?
-                                `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}` :
-                                `✅ Successfully submitted.\n\nSubmission Time: ${new Date().toLocaleString()}`);
-
-                            // 폼 초기화
-                            resetForm();
+                            showSuccessMessage();
                         }
                         
                         // 폼 제거
@@ -530,12 +512,7 @@
                 } catch (e) {
                     console.error('iframe 로드 오류:', e);
                     // 오류가 발생해도 제출은 성공한 것으로 간주
-                    alert(currentLanguage === 'ko' ?
-                        `✅ 서약서가 성공적으로 제출되었습니다.\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}` :
-                        `✅ Successfully submitted.\n\nSubmission Time: ${new Date().toLocaleString()}`);
-
-                    // 폼 초기화
-                    resetForm();
+                    showSuccessMessage();
                     
                     // 폼 제거
                     if (form.parentNode) {
@@ -558,6 +535,8 @@
             isSubmitting = false;
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
         }
     }
 
@@ -579,9 +558,23 @@
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<span data-i18n="submitBtn">제출하기</span>';
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
 
         // 날짜는 유지
         setCurrentDate();
+    }
+
+    // ===== 성공 메시지 표시 =====
+    function showSuccessMessage() {
+        const message = currentLanguage === 'ko' ?
+            `✅ 서약서 등록이 완료되었습니다!\n\n제출 시간: ${new Date().toLocaleString('ko-KR')}\n\n화면을 닫아주세요.` :
+            `✅ Security pledge registration completed!\n\nSubmission Time: ${new Date().toLocaleString()}\n\nPlease close this window.`;
+        
+        alert(message);
+        
+        // 폼 초기화
+        resetForm();
     }
 
     // ===== 다른 프로젝트에서 사용할 조회 함수 =====
@@ -605,4 +598,4 @@
 
 </script>
 </body>
-</html>
+</html>%       
