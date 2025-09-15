@@ -390,14 +390,25 @@
 
 
     // ===== 제출 처리 =====
+    let isSubmitting = false; // 제출 중 상태 추적
+
     async function handleSubmit() {
         if (!validateForm()) return;
+
+        // 이미 제출 중인 경우 중복 제출 방지
+        if (isSubmitting) {
+            alert(currentLanguage === 'ko' ? 
+                '처리중이니 잠시 기다려주십시오.' : 
+                'Please wait, your submission is being processed.');
+            return;
+        }
 
         const submitBtn = document.getElementById('submitBtn');
         const originalText = submitBtn.innerHTML;
 
         try {
-            // 버튼 비활성화
+            // 제출 상태 설정 및 버튼 비활성화
+            isSubmitting = true;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner"></span> 제출 중...';
 
@@ -543,6 +554,8 @@
                 '❌ 제출 중 오류가 발생했습니다: ' + error.message :
                 '❌ Submission failed: ' + error.message);
         } finally {
+            // 제출 상태 초기화 및 버튼 복원
+            isSubmitting = false;
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
         }
@@ -560,6 +573,12 @@
         });
 
         signaturePad.clear();
+
+        // 제출 상태도 초기화
+        isSubmitting = false;
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span data-i18n="submitBtn">제출하기</span>';
 
         // 날짜는 유지
         setCurrentDate();
